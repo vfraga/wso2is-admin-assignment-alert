@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.wso2.support.sample</groupId>
+    <artifactId>org.wso2.support.sample.adminalert</artifactId>
+    <version>1.0.0</version>
+    <name>IS Admin Assignment Alert Handler</name>
+
+    <packaging>bundle</packaging>
+
+    <repositories>
+        <repository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>wso2.releases</id>
+            <name>WSO2 internal Repository</name>
+            <url>https://maven.wso2.org/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2-maven2-repository</id>
+            <url>https://dist.wso2.org/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+            <version>${apache.felix.scr.ds.annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons-logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.event</artifactId>
+            <version>${carbon.identity.framework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.role.v2.mgt.core</artifactId>
+            <version>${carbon.identity.framework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.core</artifactId>
+            <version>${carbon.kernel.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+                <version>1.26.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <version>3.2.0</version>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Private-Package>
+                            org.wso2.support.sample.adminalert.internal
+                        </Private-Package>
+                        <Export-Package>
+                            !org.wso2.support.sample.adminalert.internal,
+                            org.wso2.support.sample.adminalert.*; version="${project.version}"
+                        </Export-Package>
+                        <Import-Package>
+                            org.wso2.carbon.identity.event.*,
+                            org.wso2.carbon.identity.role.v2.mgt.core.*,
+                            org.wso2.carbon.context,
+
+                            org.osgi.framework.*; version="${osgi.framework.version.range}",
+                            org.osgi.service.component.*; version="${osgi.service.component.version.range}",
+
+                            org.apache.commons.logging; version="${commons-logging.osgi.version.range}"
+                        </Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <!-- WSO2 IS component versions: see the product-is pom for your product version,
+             e.g. https://github.com/wso2/product-is/blob/v7.1.0/pom.xml -->
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Carbon Kernel -->
+        <carbon.kernel.version>4.10.42</carbon.kernel.version>
+        <carbon.kernel.version.range>[4.10.42, 5.0.0)</carbon.kernel.version.range>
+
+        <!-- Carbon Identity Framework (IS 7.1.0) -->
+        <carbon.identity.framework.version>7.8.23</carbon.identity.framework.version>
+        <carbon.identity.framework.version.range>[7.8.23, 8.0.0)</carbon.identity.framework.version.range>
+
+        <!-- Common versions -->
+        <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
+        <commons-logging.version>1.2</commons-logging.version>
+
+        <osgi.framework.version.range>[1.7.0, 2.0.0)</osgi.framework.version.range>
+        <osgi.service.component.version.range>[1.2.0, 2.0.0)</osgi.service.component.version.range>
+        <commons-logging.osgi.version.range>[1.2, 2.0)</commons-logging.osgi.version.range>
+    </properties>
+</project>
